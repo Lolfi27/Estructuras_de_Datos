@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        SistemaGestion.LinkedList biblioteca = new SistemaGestion.LinkedList();
+        Nodes.LinkedList biblioteca = new Nodes.LinkedList();
         Scanner sc = new Scanner(System.in);
         int opcion;
 
@@ -27,13 +27,13 @@ public class Main {
 
             switch (opcion) {
                 case 1: {
-                    SistemaGestion.Book b = pedirLibro(sc);
+                    Nodes.Book b = pedirLibro(sc);
                     biblioteca.insertAtBeginning(b);
                     System.out.println("Libro agregado al inicio.");
                     break;
                 }
                 case 2: {
-                    SistemaGestion.Book b = pedirLibro(sc);
+                    Nodes.Book b = pedirLibro(sc);
                     biblioteca.insertAtEnd(b);
                     System.out.println("Libro agregado al final.");
                     break;
@@ -41,7 +41,7 @@ public class Main {
                 case 3: {
                     System.out.print("Posición donde insertar: ");
                     int pos = leerEntero(sc);
-                    SistemaGestion.Book b = pedirLibro(sc);
+                    Nodes.Book b = pedirLibro(sc);
                     boolean ok = biblioteca.insertAt(pos, b);
                     System.out.println(ok ? "Libro insertado en la posición " + pos + "."
                             : "Posición inválida.");
@@ -62,7 +62,7 @@ public class Main {
                 case 6: {
                     System.out.print("Posición a consultar: ");
                     int pos = leerEntero(sc);
-                    SistemaGestion.Book b = biblioteca.get(pos);
+                    Nodes.Book b = biblioteca.get(pos);
                     System.out.println(b != null ? b : "Posición inválida.");
                     break;
                 }
@@ -104,13 +104,13 @@ public class Main {
         return val;
     }
 
-    private static SistemaGestion.Book pedirLibro(Scanner sc) {
+    private static Nodes.Book pedirLibro(Scanner sc) {
         System.out.print("Código: ");
         String code = sc.nextLine();
         System.out.print("Título: ");
         String title = sc.nextLine();
         System.out.print("Autor: ");
         String author = sc.nextLine();
-        return new SistemaGestion.Book(code, title, author);
+        return new Nodes.Book(code, title, author);
     }
 }

@@ -1,6 +1,6 @@
 package Actividad_1;
 
-public class SistemaGestion {
+public class Nodes {
     static class Book {
         String code;
         String title;

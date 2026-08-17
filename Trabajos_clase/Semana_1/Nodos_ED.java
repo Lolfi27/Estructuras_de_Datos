@@ -1,4 +1,4 @@
-package Trabajos_clase;
+package Trabajos_clase.Semana_1;
 
 public class Nodos_ED {
 

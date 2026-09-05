@@ -1,5 +1,5 @@
 package Actividad_3;
-public class Backtracking {
+
 // ============================================================
 //  ESCAPE DEL LABORATORIO - Actividad 3 (Backtracking)
 //  PLANTILLA DE INICIO: completa lo que falta
@@ -22,18 +22,18 @@ public class Backtracking {
 import java.util.*;
 import java.io.*;
 
-public class Main {
+public class Backtracking {
 
     // Laberinto y su tamano
     static int filas;
     static int columnas;
-    static char[][] laberinto;       // '#' pared, '.' camino, 'V' ya visitado
+    static char[][] laberinto; // '#' pared, '.' camino, 'V' ya visitado
 
-    // AhÃ­ guardaras el camino MAS CORTO que encuentres
+    // Ahí guardaras el camino MAS CORTO que encuentres
     static List<int[]> mejorCamino;
 
     // Las 4 direcciones en las que te puedes mover
-    static int[] dr = { -1, 1, 0, 0 };  // arriba, abajo, izquierda, derecha
+    static int[] dr = { -1, 1, 0, 0 }; // arriba, abajo, izquierda, derecha
     static int[] dc = { 0, 0, -1, 1 };
 
     public static void main(String[] args) throws IOException {
@@ -44,13 +44,19 @@ public class Main {
         columnas = lineas.get(0).length();
         laberinto = new char[filas][columnas];
 
-        int sr = 0, sc = 0, tr = 0, tc = 0;   // sr,sc = inicio (S)
-                                              // tr,tc = meta  (T)
+        int sr = 0, sc = 0, tr = 0, tc = 0; // sr,sc = inicio (S)
+                                            // tr,tc = meta (T)
         for (int r = 0; r < filas; r++) {
             laberinto[r] = lineas.get(r).toCharArray();
             for (int c = 0; c < columnas; c++) {
-                if (laberinto[r][c] == 'S') { sr = r; sc = c; }
-                if (laberinto[r][c] == 'T') { tr = r; tc = c; }
+                if (laberinto[r][c] == 'S') {
+                    sr = r;
+                    sc = c;
+                }
+                if (laberinto[r][c] == 'T') {
+                    tr = r;
+                    tc = c;
+                }
             }
         }
 
@@ -58,19 +64,20 @@ public class Main {
 
         // El camino que se va construyendo; empieza en el inicio
         List<int[]> caminoActual = new ArrayList<>();
-        caminoActual.add(new int[]{ sr, sc });
-        laberinto[sr][sc] = 'V';               // el inicio ya se "visito"
+        caminoActual.add(new int[] { sr, sc });
+        laberinto[sr][sc] = 'V'; // el inicio ya se "visito"
 
         // ===== TU TAREA: implementa buscar() (esta abajo) =====
         buscar(sr, sc, tr, tc, caminoActual);
 
-        laberinto[sr][sc] = 'S';               // restauramos el inicio
+        laberinto[sr][sc] = 'S'; // restauramos el inicio
 
         // ===== (YA ESTA HECHO: imprime el resultado) =====
         List<int[]> caminoFinal = mejorCamino == null ? caminoActual : mejorCamino;
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < caminoFinal.size(); i++) {
-            if (i > 0) sb.append(";");
+            if (i > 0)
+                sb.append(";");
             int[] p = caminoFinal.get(i);
             sb.append(p[0]).append(",").append(p[1]);
         }
@@ -78,29 +85,29 @@ public class Main {
     }
 
     /**
-     *  ========= COMPLETA ESTE METODO =========
-     *  Busca la meta (tr,tc) con backtracking.
+     * ========= COMPLETA ESTE METODO =========
+     * Busca la meta (tr,tc) con backtracking.
      *
-     *  PASO 1. Si (r,c) es la meta:
-     *          - Si nunca habia encontrado camino (mejorCamino == null)
-     *            o el actual es mas corto (camino.size() < mejorCamino.size()),
-     *            guarda una COPIA:  mejorCamino = new ArrayList<>(camino);
-     *          - Regresa (return) para seguir buscando otro camino mejor.
+     * PASO 1. Si (r,c) es la meta:
+     * - Si nunca habia encontrado camino (mejorCamino == null)
+     * o el actual es mas corto (camino.size() < mejorCamino.size()),
+     * guarda una COPIA: mejorCamino = new ArrayList<>(camino);
+     * - Regresa (return) para seguir buscando otro camino mejor.
      *
-     *  PASO 2. Prueba cada una de las 4 direcciones usando dr[] y dc[].
-     *          Para cada vecino (nr, nc):
-     *          - Si queda FUERA del laberinto, continue.
-     *          - Si es pared '#' o ya visitado 'V', continue.
+     * PASO 2. Prueba cada una de las 4 direcciones usando dr[] y dc[].
+     * Para cada vecino (nr, nc):
+     * - Si queda FUERA del laberinto, continue.
+     * - Si es pared '#' o ya visitado 'V', continue.
      *
-     *  PASO 3. Moverse (backtracking):
-     *          - Guarda el caracter original de la celda: char original = laberinto[nr][nc];
-     *          - Marcala como visitada: laberinto[nr][nc] = 'V';
-     *          - Agregala al camino: camino.add(new int[]{ nr, nc });
-     *          - Imprime la celda que visitas: System.out.println(nr + "," + nc);
-     *          - Llama recursivamente: buscar(nr, nc, tr, tc, camino);
-     *          - AL REGRESAR deshace el movimiento:
-     *              camino.remove(camino.size() - 1);
-     *              laberinto[nr][nc] = original;
+     * PASO 3. Moverse (backtracking):
+     * - Guarda el caracter original de la celda: char original = laberinto[nr][nc];
+     * - Marcala como visitada: laberinto[nr][nc] = 'V';
+     * - Agregala al camino: camino.add(new int[]{ nr, nc });
+     * - Imprime la celda que visitas: System.out.println(nr + "," + nc);
+     * - Llama recursivamente: buscar(nr, nc, tr, tc, camino);
+     * - AL REGRESAR deshace el movimiento:
+     * camino.remove(camino.size() - 1);
+     * laberinto[nr][nc] = original;
      */
     static void buscar(int r, int c, int tr, int tc, List<int[]> camino) {
         // PASO 1. Si (r,c) es la meta:
@@ -111,9 +118,6 @@ public class Main {
             return;
         }
 
-        // PODA / OPTIMIZACIÓN:
-        // Si el camino actual más la distancia mínima teórica a la meta
-        // ya iguala o supera al mejor camino encontrado, cortamos esta rama.
         if (mejorCamino != null && camino.size() + Math.abs(r - tr) + Math.abs(c - tc) >= mejorCamino.size()) {
             return;
         }
@@ -123,12 +127,12 @@ public class Main {
             int nr = r + dr[i];
             int nc = c + dc[i];
 
-            // Validar límites del laberinto (fuera del laberinto)
+            // Validar límites del laberinto (directamente aquí)
             if (nr < 0 || nr >= filas || nc < 0 || nc >= columnas) {
                 continue;
             }
 
-            // Validar si es pared '#' o ya visitado 'V'
+            // Validar si es pared '#' o ya visitado 'V' (directamente aquí)
             if (laberinto[nr][nc] == '#' || laberinto[nr][nc] == 'V') {
                 continue;
             }
@@ -136,7 +140,7 @@ public class Main {
             // PASO 3. Moverse (backtracking):
             char original = laberinto[nr][nc];
             laberinto[nr][nc] = 'V';
-            camino.add(new int[]{ nr, nc });
+            camino.add(new int[] { nr, nc });
             System.out.println(nr + "," + nc);
 
             buscar(nr, nc, tr, tc, camino);
@@ -153,20 +157,20 @@ public class Main {
         File f = new File("/str/maze.txt");
         Scanner sc = null;
         try {
-            if (f.exists()) sc = new Scanner(f);
+            if (f.exists())
+                sc = new Scanner(f);
         } catch (Exception e) {
             sc = null;
         }
         // Si no hay archivo (en tu IDE), lee de la entrada estandar
-        if (sc == null) sc = new Scanner(System.in);
+        if (sc == null)
+            sc = new Scanner(System.in);
         while (sc.hasNextLine()) {
             String l = sc.nextLine().trim();
-            if (!l.isEmpty()) lineas.add(l);
+            if (!l.isEmpty())
+                lineas.add(l);
         }
         sc.close();
         return lineas;
     }
-}
-
-    
 }

@@ -47,7 +47,6 @@ public class Clase_4 {
     }
 
     static boolean[][] visited;
-    static int totalCaminos = 0;
 
     static boolean move(int row, int col, char[][] maze, int index) {
         if (index == maze[0].length) {
@@ -73,65 +72,33 @@ public class Clase_4 {
         return moveRight || moveLeft || moveDown || moveUp;
     }
 
-    static void printMaze(char[][] maze) {
+    static void showMaze(int row, int col, char[][] maze) {
+        if (!validMove(row, col) || visited[row][col] || isWall(row, col)) {
+            return;
+        }
+        visited[row][col] = true;
+        maze[row][col] = '*';
+        showMaze(row, col + 1, maze);
+        showMaze(row, col - 1, maze);
+        showMaze(row + 1, col, maze);
+        showMaze(row - 1, col, maze);
+        visited[row][col] = false;
+        maze[row][col] = '.';
+    }
+
+    static void mazeSolver() {
+        visited = new boolean[maze.length][maze[0].length];
+        showMaze(0, 0, maze);
+    }
+
+    public static void main(String[] args) {
+        // System.out.println(countPermutation("", "ABCD"));
+        mazeSolver();
         for (int i = 0; i < maze.length; i++) {
             for (int j = 0; j < maze[0].length; j++) {
                 System.out.print(maze[i][j] + " ");
             }
             System.out.println();
         }
-        System.out.println();
-    }
-
-    static void showMaze(int row, int col, char[][] maze) {
-        if (!validMove(row, col) || visited[row][col] || isWall(row, col)) {
-            return;
-        }
-
-        // Caso base: se llegó a la salida 'T'
-        if (maze[row][col] == 'T') {
-            totalCaminos++;
-            System.out.println("Camino " + totalCaminos + ":");
-            printMaze(maze);
-            return;
-        }
-
-        visited[row][col] = true;
-        char original = maze[row][col];
-        if (original == '.') {
-            maze[row][col] = '*';
-        }
-
-        showMaze(row, col + 1, maze);
-        showMaze(row, col - 1, maze);
-        showMaze(row + 1, col, maze);
-        showMaze(row - 1, col, maze);
-
-        visited[row][col] = false;
-        maze[row][col] = original;
-    }
-
-    static void mazeSolver() {
-        visited = new boolean[maze.length][maze[0].length];
-        totalCaminos = 0;
-        int startRow = 0, startCol = 0;
-        for (int i = 0; i < maze.length; i++) {
-            for (int j = 0; j < maze[0].length; j++) {
-                if (maze[i][j] == 'S') {
-                    startRow = i;
-                    startCol = j;
-                    break;
-                }
-            }
-        }
-        showMaze(startRow, startCol, maze);
-        if (totalCaminos == 0) {
-            System.out.println("No se encontró ningún camino.");
-        }
-    }
-
-    public static void main(String[] args) {
-        // System.out.println(countPermutation("", "ABCD"));
-        mazeSolver();
     }
 }
